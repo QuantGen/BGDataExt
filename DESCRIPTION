@@ -1,0 +1,12 @@
+Package: BGDataExt
+Version: 0.0.1
+License: MIT + file LICENSE
+Title: Staging Package for BGData
+Description: The testing area of the BGData suite of R packages. This package
+    contains features which have not been integrated into the suite yet.
+Authors@R: person("Alexander", "Grueneberg", email = "cran@agrueneberg.info",
+    role = c("aut", "cre"))
+Depends:
+    R (>= 3.0.0)
+Suggests:
+    tinytest
