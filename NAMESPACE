@@ -1,1 +1,2 @@
+export(getSegments)
 useDynLib(BGDataExt, .registration = TRUE, .fixes = "C_")

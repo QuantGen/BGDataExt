@@ -9,4 +9,5 @@ Authors@R: person("Alexander", "Grueneberg", email = "cran@agrueneberg.info",
 Depends:
     R (>= 3.0.0)
 Suggests:
+    BGData,
     tinytest
