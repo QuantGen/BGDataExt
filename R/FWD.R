@@ -55,7 +55,7 @@ FWD <- function(y, X, df = 20, tol = 1e-7, verbose = TRUE, maxIter = 1000, cente
             message("  ", DF[i] - 1, " predictors, AIC=", round(AIC[i], 2))
         }
     }
-    OUT <- list(B = B, path = path, RSS = RSS, LogLik = LogLik, VARE = VARE, DF = DF, AIC = AIC, BIC = BIC)
+    OUT <- list(B = B, path = data.frame(variable=path, RSS = RSS, LogLik = LogLik, VARE = VARE, DF = DF, AIC = AIC, BIC = BIC))
     return(OUT)
 }
 
