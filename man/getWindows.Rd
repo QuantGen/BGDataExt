@@ -10,8 +10,7 @@ getWindows(X, center_snp = 1:100, rSq = 0.1, maxGaps = 2, ids = 1:nrow(X))
 }
 \arguments{
     \item{X}{
-        A matrix-like object, typically \code{@geno} of a \linkS4class{BGData}
-        object.
+        A matrix-like object, typically \code{@geno} of a \code{BGData} object.
     }
     \item{center_snp}{
         Columns of \code{X} to compute windows. By default, does not attempt to
