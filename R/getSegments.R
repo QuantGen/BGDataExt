@@ -1,4 +1,4 @@
-getSegments <- function(x, chr, bp, names, threshold, lag, trim = FALSE, verbose = FALSE) {
+getSegments <- function(x, chr, bp, names, threshold, gap, trim = FALSE, verbose = FALSE) {
     if (length(unique(c(length(x), length(chr), length(bp), length(names)))) != 1) {
         stop("x, chr, bp, and names need to match in length")
     }
@@ -17,8 +17,8 @@ getSegments <- function(x, chr, bp, names, threshold, lag, trim = FALSE, verbose
     if (!(is.numeric(threshold) && length(threshold) == 2)) {
         stop("'threshold' needs to be a numeric vector of size 2")
     }
-    if (!is.numeric(lag)) {
-        stop("'lag' needs to a number")
+    if (!is.numeric(gap)) {
+        stop("'gap' needs to a number")
     }
     uniqueChr <- unique(chr)
     out <- vector(mode = "list", length = length(uniqueChr))
@@ -33,10 +33,10 @@ getSegments <- function(x, chr, bp, names, threshold, lag, trim = FALSE, verbose
         namesChr <- names[chrFilter]
         # Determine variants below threshold
         discoverySet <- which(xChr <= threshold[1])
-        # Set discoveries and all variants within +/- lag to 1, leave rest as 0
+        # Set discoveries and all variants within +/- gap to 1, leave rest as 0
         signal <- rep(0, length(chrFilter))
         for (discovery in discoverySet) {
-            signal[abs(bpChr - bpChr[discovery]) <= lag] <- 1
+            signal[abs(bpChr - bpChr[discovery]) <= gap] <- 1
         }
         # Determine the runs in the 0/1 signal
         runs <- rle(signal)

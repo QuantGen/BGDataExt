@@ -4,11 +4,11 @@
 \description{
     Given a summary statistic \code{x} and a threshold, this function computes
     the number of non-overlapping segments, each defined as a discovery (i.e.,
-    \code{x[i] <= threshold)} +/- a lag, in the same units as \code{bp} (often
+    \code{x[i] <= threshold)} +/- a gap, in the same units as \code{bp} (often
     base-pair position).
 }
 \usage{
-getSegments(x, chr, bp, names, threshold, lag, trim = FALSE, verbose = FALSE)
+getSegments(x, chr, bp, names, threshold, gap, trim = FALSE, verbose = FALSE)
 }
 \arguments{
     \item{x}{
@@ -28,12 +28,12 @@ getSegments(x, chr, bp, names, threshold, lag, trim = FALSE, verbose = FALSE)
         'significance' and the second to cut off the peak (e.g., \code{c(1e-8,
         1e-5)}).
     }
-    \item{lag}{
+    \item{gap}{
         1/2 of the length of the desired segments.
     }
     \item{trim}{
         Whether to collapse segments that were artifically inflated by
-        \code{lag}. Defaults to \code{FALSE}.
+        \code{gap}. Defaults to \code{FALSE}.
     }
     \item{verbose}{
         Whether progress updates will be posted. Defaults to \code{FALSE}.
@@ -89,7 +89,7 @@ segments <- getSegments(
     bp = map(bg)$base_pair_position,
     names = map(bg)$snp_id,
     threshold = c(1e-5, 1e-5),
-    lag = 1e6,
+    gap = 1e6,
     trim = FALSE,
     verbose = FALSE
 )
