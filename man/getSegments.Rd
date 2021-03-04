@@ -24,9 +24,8 @@ getSegments(x, chr, bp, names, threshold, gap, trim = FALSE, verbose = FALSE)
         A vector containing the variant names for each value of \code{x}.
     }
     \item{threshold}{
-        A vector containing two thresholds: the first to determine
-        'significance' and the second to cut off the peak (e.g., \code{c(1e-8,
-        1e-5)}).
+        The threshold to determine 'significance' (e.g., \code{1e-5} for
+        p-values).
     }
     \item{gap}{
         1/2 of the length of the desired segments.
@@ -88,7 +87,7 @@ segments <- getSegments(
     chr = map(bg)$chromosome,
     bp = map(bg)$base_pair_position,
     names = map(bg)$snp_id,
-    threshold = c(1e-5, 1e-5),
+    threshold = 1e-5,
     gap = 1e6,
     trim = FALSE,
     verbose = FALSE

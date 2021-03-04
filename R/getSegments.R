@@ -14,8 +14,8 @@ getSegments <- function(x, chr, bp, names, threshold, gap, trim = FALSE, verbose
     if (!is.character(names)) {
         stop("'names' needs to be a character vector")
     }
-    if (!(is.numeric(threshold) && length(threshold) == 2)) {
-        stop("'threshold' needs to be a numeric vector of size 2")
+    if (!is.numeric(threshold)) {
+        stop("'threshold' needs to a number")
     }
     if (!is.numeric(gap)) {
         stop("'gap' needs to a number")
@@ -32,7 +32,7 @@ getSegments <- function(x, chr, bp, names, threshold, gap, trim = FALSE, verbose
         bpChr <- bp[chrFilter]
         namesChr <- names[chrFilter]
         # Determine variants below threshold
-        discoverySet <- which(xChr <= threshold[1])
+        discoverySet <- which(xChr <= threshold)
         # Set discoveries and all variants within +/- gap to 1, leave rest as 0
         signal <- rep(0, length(chrFilter))
         for (discovery in discoverySet) {
@@ -62,8 +62,7 @@ getSegments <- function(x, chr, bp, names, threshold, gap, trim = FALSE, verbose
             minName[curSeg] <- namesSeg[minValuePos]
             if (trim) {
                 # Determine which variants in the segment passed the threshold
-                # (the second discovery set, so to speak)
-                significantVariants <- which(xSeg <= threshold[2])
+                significantVariants <- which(xSeg <= threshold)
                 # Set start of run to first significant variant and end of run
                 # to last significant variant
                 runStart[curSeg] <- segFilter[significantVariants[1]]
