@@ -2,23 +2,24 @@
 \alias{getSegments}
 \title{Find non-overlapping segments based on a summary statistic}
 \description{
-    Given a summary statistic \code{x} and a threshold, this function computes
-    the number of non-overlapping segments, each defined as a discovery (i.e.,
-    \code{x[i] <= threshold)} +/- a gap, in the same units as \code{bp} (often
-    base-pair position).
+    Given a summary statistic and a threshold, this function computes the
+    number of non-overlapping segments, each defined as a discovery (i.e.,
+    \code{statistic[i] <= threshold)} +/- a gap, in the same units as \code{bp}
+    (often base-pair position).
 }
 \usage{
-getSegments(x, chr, bp, threshold, gap, trim = FALSE, verbose = FALSE)
+getSegments(statistic, chr, bp, threshold, gap, trim = FALSE, verbose = FALSE)
 }
 \arguments{
-    \item{x}{
+    \item{statistic}{
         A statistic (e.g., BFDR or p-values).
     }
     \item{chr}{
-        A vector containing the chromosome for each value of \code{x}.
+        A vector containing the chromosome for each value of \code{statistic}.
     }
     \item{bp}{
-        A vector containing the base-pair positions for each value of \code{x}.
+        A vector containing the base-pair positions for each value of
+        \code{statistic}.
     }
     \item{threshold}{
         The threshold to determine 'significance' (e.g., \code{1e-5} for
@@ -41,10 +42,10 @@ getSegments(x, chr, bp, threshold, gap, trim = FALSE, verbose = FALSE)
         Chromosome
     }
     \item{start}{
-        Index where segment starts within \code{x}.
+        Index where segment starts within \code{statistic}.
     }
     \item{end}{
-        Index where segment ends within \code{x}.
+        Index where segment ends within \code{statistic}.
     }
     \item{length}{
         Length of segment.
@@ -59,10 +60,11 @@ getSegments(x, chr, bp, threshold, gap, trim = FALSE, verbose = FALSE)
         Length of segment in base-pair positions.
     }
     \item{minValue}{
-        Smallest value of \code{x} within segment.
+        Smallest value of \code{statistic} within segment.
     }
     \item{minValuePos}{
-        Position of variant with the smallest value of \code{x} within segment.
+        Position of variant with the smallest value of \code{statistic} within
+        segment.
     }
 }
 \examples{
@@ -80,7 +82,7 @@ pValues <- GWAS(
 
 # Determine segments within +/- 1MB from a significant variant
 segments <- getSegments(
-    x = pValues[, 4],
+    statistic = pValues[, 4],
     chr = map(bg)$chromosome,
     bp = map(bg)$base_pair_position,
     threshold = 1e-5,

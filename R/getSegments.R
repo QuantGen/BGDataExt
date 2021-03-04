@@ -1,9 +1,9 @@
-getSegments <- function(x, chr, bp, threshold, gap, trim = FALSE, verbose = FALSE) {
-    if (length(unique(c(length(x), length(chr), length(bp)))) != 1) {
-        stop("x, chr, and bp need to match in length")
+getSegments <- function(statistic, chr, bp, threshold, gap, trim = FALSE, verbose = FALSE) {
+    if (length(unique(c(length(statistic), length(chr), length(bp)))) != 1) {
+        stop("statistic, chr, and bp need to match in length")
     }
-    if (!is.numeric(x)) {
-        stop("'x' needs to be a numeric vector")
+    if (!is.numeric(statistic)) {
+        stop("'statistic' needs to be a numeric vector")
     }
     if (!(is.numeric(chr) || is.character(chr))) {
         stop("'chr' needs to be a either a character or numeric vector")
@@ -25,10 +25,10 @@ getSegments <- function(x, chr, bp, threshold, gap, trim = FALSE, verbose = FALS
         }
         # Extract chromosome data
         chrFilter <- which(chr == curChr)
-        xChr <- x[chrFilter]
+        statisticChr <- statistic[chrFilter]
         bpChr <- bp[chrFilter]
         # Determine variants below threshold
-        discoverySet <- which(xChr <= threshold)
+        discoverySet <- which(statisticChr <= threshold)
         # Set discoveries and all variants within +/- gap to 1, leave rest as 0
         signal <- rep(0, length(chrFilter))
         for (discovery in discoverySet) {
@@ -51,13 +51,13 @@ getSegments <- function(x, chr, bp, threshold, gap, trim = FALSE, verbose = FALS
         minValuePos <- vector(mode = "integer", length = length(runStart))
         for (curSeg in seq_along(runStart)) {
             segFilter <- seq(runStart[curSeg], runEnd[curSeg])
-            xSeg <- xChr[segFilter]
-            minValuePosSeg <- which.min(xSeg)
-            minValue[curSeg] <- xSeg[minValuePosSeg]
+            statisticSeq <- statisticChr[segFilter]
+            minValuePosSeg <- which.min(statisticSeq)
+            minValue[curSeg] <- statisticSeq[minValuePosSeg]
             minValuePos[curSeg] <- chrFilter[1] + segFilter[1] + minValuePosSeg - 2
             if (trim) {
                 # Determine which variants in the segment passed the threshold
-                significantVariants <- which(xSeg <= threshold)
+                significantVariants <- which(statisticSeq <= threshold)
                 # Set start of run to first significant variant and end of run
                 # to last significant variant
                 runStart[curSeg] <- segFilter[significantVariants[1]]
