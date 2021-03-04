@@ -1,6 +1,6 @@
-getSegments <- function(x, chr, bp, names, threshold, gap, trim = FALSE, verbose = FALSE) {
-    if (length(unique(c(length(x), length(chr), length(bp), length(names)))) != 1) {
-        stop("x, chr, bp, and names need to match in length")
+getSegments <- function(x, chr, bp, threshold, gap, trim = FALSE, verbose = FALSE) {
+    if (length(unique(c(length(x), length(chr), length(bp)))) != 1) {
+        stop("x, chr, and bp need to match in length")
     }
     if (!is.numeric(x)) {
         stop("'x' needs to be a numeric vector")
@@ -10,9 +10,6 @@ getSegments <- function(x, chr, bp, names, threshold, gap, trim = FALSE, verbose
     }
     if (!is.numeric(bp)) {
         stop("'bp' needs to be a numeric vector")
-    }
-    if (!is.character(names)) {
-        stop("'names' needs to be a character vector")
     }
     if (!is.numeric(threshold)) {
         stop("'threshold' needs to a number")
@@ -30,7 +27,6 @@ getSegments <- function(x, chr, bp, names, threshold, gap, trim = FALSE, verbose
         chrFilter <- which(chr == curChr)
         xChr <- x[chrFilter]
         bpChr <- bp[chrFilter]
-        namesChr <- names[chrFilter]
         # Determine variants below threshold
         discoverySet <- which(xChr <= threshold)
         # Set discoveries and all variants within +/- gap to 1, leave rest as 0
@@ -47,19 +43,18 @@ getSegments <- function(x, chr, bp, names, threshold, gap, trim = FALSE, verbose
         runStart <- runStart[withinSegment]
         runEnd <- runStart + runs[["lengths"]][withinSegment] - 1
         runLength <- runs[["lengths"]][withinSegment]
-        # Determine name and value of smallest variant within segment, and
+        # Determine value and position of smallest variant within segment, and
         # optionally trim segment (i.e., remove variants that are not internal
         # to the segment containing GWAS-significant variants)
         # Would be nice to vectorize this like the other operations ...
         minValue <- vector(mode = "numeric", length = length(runStart))
-        minName <- vector(mode = "numeric", length = length(runStart))
+        minValuePos <- vector(mode = "integer", length = length(runStart))
         for (curSeg in seq_along(runStart)) {
             segFilter <- seq(runStart[curSeg], runEnd[curSeg])
             xSeg <- xChr[segFilter]
-            namesSeg <- namesChr[segFilter]
-            minValuePos <- which.min(xSeg)
-            minValue[curSeg] <- xSeg[minValuePos]
-            minName[curSeg] <- namesSeg[minValuePos]
+            minValuePosSeg <- which.min(xSeg)
+            minValue[curSeg] <- xSeg[minValuePosSeg]
+            minValuePos[curSeg] <- chrFilter[1] + segFilter[1] + minValuePosSeg - 2
             if (trim) {
                 # Determine which variants in the segment passed the threshold
                 significantVariants <- which(xSeg <= threshold)
@@ -89,8 +84,8 @@ getSegments <- function(x, chr, bp, names, threshold, gap, trim = FALSE, verbose
             bpStart = bpStart,
             bpEnd = bpEnd,
             bpLength = bpLength,
-            minName = minName,
-            minValue = minValue
+            minValue = minValue,
+            minValuePos = minValuePos
         )
         out[[curChr]] <- outChr
     }

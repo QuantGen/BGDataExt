@@ -8,7 +8,7 @@
     base-pair position).
 }
 \usage{
-getSegments(x, chr, bp, names, threshold, gap, trim = FALSE, verbose = FALSE)
+getSegments(x, chr, bp, threshold, gap, trim = FALSE, verbose = FALSE)
 }
 \arguments{
     \item{x}{
@@ -19,9 +19,6 @@ getSegments(x, chr, bp, names, threshold, gap, trim = FALSE, verbose = FALSE)
     }
     \item{bp}{
         A vector containing the base-pair positions for each value of \code{x}.
-    }
-    \item{names}{
-        A vector containing the variant names for each value of \code{x}.
     }
     \item{threshold}{
         The threshold to determine 'significance' (e.g., \code{1e-5} for
@@ -61,11 +58,11 @@ getSegments(x, chr, bp, names, threshold, gap, trim = FALSE, verbose = FALSE)
     \item{bpLength}{
         Length of segment in base-pair positions.
     }
-    \item{minName}{
-        Name of variant with the smallest value of \code{x} within segment.
-    }
     \item{minValue}{
         Smallest value of \code{x} within segment.
+    }
+    \item{minValuePos}{
+        Position of variant with the smallest value of \code{x} within segment.
     }
 }
 \examples{
@@ -86,7 +83,6 @@ segments <- getSegments(
     x = pValues[, 4],
     chr = map(bg)$chromosome,
     bp = map(bg)$base_pair_position,
-    names = map(bg)$snp_id,
     threshold = 1e-5,
     gap = 1e6,
     trim = FALSE,
