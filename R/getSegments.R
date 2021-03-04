@@ -1,4 +1,4 @@
-getSegments <- function(statistic, chr, bp, threshold, gap, trim = FALSE, verbose = FALSE) {
+getSegments <- function(statistic, chr, bp, threshold, gap, verbose = FALSE) {
     if (length(unique(c(length(statistic), length(chr), length(bp)))) != 1) {
         stop("statistic, chr, and bp need to match in length")
     }
@@ -43,9 +43,7 @@ getSegments <- function(statistic, chr, bp, threshold, gap, trim = FALSE, verbos
         runStart <- runStart[withinSegment]
         runEnd <- runStart + runs[["lengths"]][withinSegment] - 1
         runLength <- runs[["lengths"]][withinSegment]
-        # Determine value and position of smallest variant within segment, and
-        # optionally trim segment (i.e., remove variants that are not internal
-        # to the segment containing GWAS-significant variants)
+        # Determine value and position of smallest variant within segment
         # Would be nice to vectorize this like the other operations ...
         minValue <- vector(mode = "numeric", length = length(runStart))
         minValuePos <- vector(mode = "integer", length = length(runStart))
@@ -55,15 +53,6 @@ getSegments <- function(statistic, chr, bp, threshold, gap, trim = FALSE, verbos
             minValuePosSeg <- which.min(statisticSeq)
             minValue[curSeg] <- statisticSeq[minValuePosSeg]
             minValuePos[curSeg] <- chrFilter[1] + segFilter[1] + minValuePosSeg - 2
-            if (trim) {
-                # Determine which variants in the segment passed the threshold
-                significantVariants <- which(statisticSeq <= threshold)
-                # Set start of run to first significant variant and end of run
-                # to last significant variant
-                runStart[curSeg] <- segFilter[significantVariants[1]]
-                runEnd[curSeg] <- segFilter[significantVariants[length(significantVariants)]]
-                runLength[curSeg] <- runEnd[curSeg] - runStart[curSeg] + 1
-            }
         }
         # Determine at what base-pair positions the runs start and end
         bpStart <- bpChr[runStart]
