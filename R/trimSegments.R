@@ -1,4 +1,4 @@
-trimSegments <- function(segments, statistic, chr, bp, threshold) {
+trimSegments <- function(segments, statistic, threshold) {
     runStart <- segments[["start"]]
     runEnd <- segments[["end"]]
     for (curSeg in 1:nrow(segments)) {

@@ -6,7 +6,7 @@
     GWAS-significant variants.
 }
 \usage{
-trimSegments(segments, statistic, chr, bp, threshold)
+trimSegments(segments, statistic, threshold)
 }
 \arguments{
     \item{segments}{
@@ -14,12 +14,6 @@ trimSegments(segments, statistic, chr, bp, threshold)
     }
     \item{statistic}{
         The statistic used for \code{segments}.
-    }
-    \item{chr}{
-        The chromosomes used for \code{segments}.
-    }
-    \item{bp}{
-        The base-pair positions used for \code{segments}.
     }
     \item{threshold}{
         The threshold to determine 'significance' (e.g., \code{1e-5} for
@@ -56,8 +50,6 @@ segments <- getSegments(
 trimmedSegments <- trimSegments(
     segments = segments,
     statistic = pValues[, 4],
-    chr = map(bg)$chromosome,
-    bp = map(bg)$base_pair_position,
     threshold = 1e-5
 )
 }
