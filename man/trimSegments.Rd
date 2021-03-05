@@ -46,7 +46,7 @@ segments <- segments(
     verbose = FALSE
 )
 
-# Trims segments
+# Trim segments
 trimmedSegments <- trimSegments(
     segments = segments,
     statistic = pValues[, 4],
