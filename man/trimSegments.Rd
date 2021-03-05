@@ -10,7 +10,7 @@ trimSegments(segments, statistic, threshold)
 }
 \arguments{
     \item{segments}{
-        Segments determined by \code{getSegments}.
+        Segments determined by \code{segments}.
     }
     \item{statistic}{
         The statistic used for \code{segments}.
@@ -21,7 +21,7 @@ trimSegments(segments, statistic, threshold)
     }
 }
 \value{
-    Trimmed segments, see \link{\code{getSegments}}.
+    Trimmed segments, see \link{\code{segments}}.
 }
 \examples{
 library(BGData)
@@ -37,7 +37,7 @@ pValues <- GWAS(
 )
 
 # Determine segments within +/- 1MB from a significant variant
-segments <- getSegments(
+segments <- segments(
     statistic = pValues[, 4],
     chr = map(bg)$chromosome,
     bp = map(bg)$base_pair_position,

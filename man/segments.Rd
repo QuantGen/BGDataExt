@@ -1,5 +1,5 @@
-\name{getSegments}
-\alias{getSegments}
+\name{segments}
+\alias{segments}
 \title{Find non-overlapping segments based on a summary statistic}
 \description{
     Given a summary statistic and a threshold, this function computes the
@@ -8,7 +8,7 @@
     (often base-pair position).
 }
 \usage{
-getSegments(statistic, chr, bp, threshold, gap, verbose = FALSE)
+segments(statistic, chr, bp, threshold, gap, verbose = FALSE)
 }
 \arguments{
     \item{statistic}{
@@ -77,7 +77,7 @@ pValues <- GWAS(
 )
 
 # Determine segments within +/- 1MB from a significant variant
-segments <- getSegments(
+segments <- segments(
     statistic = pValues[, 4],
     chr = map(bg)$chromosome,
     bp = map(bg)$base_pair_position,

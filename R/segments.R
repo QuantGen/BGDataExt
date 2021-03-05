@@ -1,4 +1,4 @@
-getSegments <- function(statistic, chr, bp, threshold, gap, verbose = FALSE) {
+segments <- function(statistic, chr, bp, threshold, gap, verbose = FALSE) {
     if (length(unique(c(length(statistic), length(chr), length(bp)))) != 1) {
         stop("statistic, chr, and bp need to match in length")
     }
