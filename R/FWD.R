@@ -1,4 +1,4 @@
-FWD <- function(y, X, df = 20, tol = 1e-7, verbose = TRUE, maxIter = 1000, centerImpute = TRUE) {
+FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, verbose = TRUE) {
     if (is.null(colnames(X))) {
         colnames(X) <- paste0("X", 1:ncol(X))
     }

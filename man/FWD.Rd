@@ -5,8 +5,8 @@
     TODO
 }
 \usage{
-FWD(y, X, df = 20, tol = 1e-7, verbose = TRUE, maxIter = 1000, centerImpute =
-  TRUE)
+FWD(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE,
+    verbose = TRUE)
 }
 \arguments{
     \item{y}{
@@ -17,11 +17,11 @@ FWD(y, X, df = 20, tol = 1e-7, verbose = TRUE, maxIter = 1000, centerImpute =
     }
     \item{tol}{
     }
-    \item{verbose}{
-    }
     \item{maxIter}{
     }
     \item{centerImpute}{
+    }
+    \item{verbose}{
     }
 }
 \value{
