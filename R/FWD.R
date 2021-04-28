@@ -15,7 +15,7 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
     colnames(X) <- c("Int", colNames)
     colNames <- colnames(X)
     C <- crossprod(X)
-    rhs <- crossprod(X,y)
+    rhs <- crossprod(X, y)
     n <- length(y)
     p <- ncol(X)
     B <- matrix(nrow = p, ncol = df, 0)
