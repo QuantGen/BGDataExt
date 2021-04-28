@@ -107,6 +107,6 @@ fitSYS <- function(C, rhs, b, active, RSS, tol, maxIter) {
     active <- active - 1 # for the 0-based index
     tmp_b <- b + 0.0
     tmp_RSS <- RSS + 0.0
-    ans <- .Call("fitLSYS", ncol(C), length(active), C, rhs, tmp_b, active, tmp_RSS, maxIter, tol)
+    ans <- .Call("fitLSYS", C, rhs, tmp_b, active, tmp_RSS, maxIter, tol)
     return(list(b = ans[[1]], RSS = ans[[2]]))
 }

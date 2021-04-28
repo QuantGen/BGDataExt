@@ -1,10 +1,10 @@
 #include "fitLSYS.h"
 
-SEXP fitLSYS(SEXP nCol, SEXP nActive, SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP tolerance) {
+SEXP fitLSYS(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP tolerance) {
     int p;
     int m;
     int n;
-    int q;
+    R_xlen_t q;
     int nIter = 0;
     int j = 0;
     int iter = 0;
@@ -21,8 +21,8 @@ SEXP fitLSYS(SEXP nCol, SEXP nActive, SEXP C, SEXP rhs, SEXP b, SEXP active, SEX
     double *pb;
     double RSS0;
     SEXP list;
-    p = Rf_asInteger(nCol);
-    q = Rf_asInteger(nActive);
+    p = Rf_ncols(C);
+    q = Rf_xlength(active);
     nIter = Rf_asInteger(maxIter);
     tol = Rf_asReal(tolerance);
     PROTECT(C = Rf_coerceVector(C, REALSXP));
