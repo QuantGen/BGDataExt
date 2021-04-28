@@ -18,16 +18,16 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
     rhs <- crossprod(X, y)
     n <- length(y)
     p <- ncol(X)
-    B <- matrix(nrow = p, ncol = df, 0)
+    B <- matrix(data = 0, nrow = p, ncol = df)
     rownames(B) <- colNames
     B[1, 1] <- mean(y)
-    RSS <- rep(NA, df)
-    LogLik <- RSS
-    VARE <- RSS
-    AIC <- RSS
-    DF <- RSS
-    BIC <- RSS
-    path <- rep(NA, df)
+    RSS <- rep(NA_real_, df)
+    LogLik <- rep(NA_real_, df)
+    VARE <- rep(NA_real_, df)
+    AIC <- rep(NA_real_, df)
+    DF <- rep(NA_real_, df)
+    BIC <- rep(NA_real_, df)
+    path <- rep(NA_character_, df)
     RSS[1] <- sum((y - B[1, 1])^2)
     tol <- tol * RSS[1]
     DF[1] <- 1
