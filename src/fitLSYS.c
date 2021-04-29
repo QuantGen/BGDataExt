@@ -2,7 +2,7 @@
 
 SEXP fitLSYS(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP tolerance) {
     int p = Rf_ncols(C);
-    R_xlen_t q = Rf_xlength(active);
+    R_xlen_t nActive = Rf_xlength(active);
     int nIter = Rf_asInteger(maxIter);
     double tol = Rf_asReal(tolerance);
     double *pC = REAL(C);
@@ -14,11 +14,11 @@ SEXP fitLSYS(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP
     double newRSS = oldRSS;
     for (int iter = 0; iter < nIter; iter++) {
         oldRSS = newRSS;
-        for (int j = 0; j < q; j++) { // loop over active predictors
+        for (int j = 0; j < nActive; j++) { // loop over active predictors
             int k = pactive[j];
             double Ckk = pC[k * (p + 1)];
             double offset = 0.0;
-            for (int m = 0; m < q; m++) {
+            for (int m = 0; m < nActive; m++) {
                 int n = pactive[m];
                 offset += pC[p * k + n] * pb[n];
             }
