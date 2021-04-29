@@ -25,7 +25,7 @@ SEXP fitLSYS(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP
             offset -= Ckk * pb[k];
             double rhs_offset = prhs[k] - offset;
             double sol = rhs_offset / Ckk;
-            newRSS += (pow(sol, 2) - pow(pb[k], 2)) * Ckk -2 * (sol - pb[k]) * rhs_offset;
+            newRSS += (pow(sol, 2) - pow(pb[k], 2)) * Ckk - 2 * (sol - pb[k]) * rhs_offset;
             pb[k] = sol;
         }
         if (((oldRSS - newRSS) / oldRSS) < tol) {
@@ -38,4 +38,4 @@ SEXP fitLSYS(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP
     SET_VECTOR_ELT(list, 1, Rf_ScalarReal(newRSS));
     UNPROTECT(2); // b, list
     return list;
- }
+}
