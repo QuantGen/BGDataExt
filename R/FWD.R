@@ -75,8 +75,6 @@ addOne <- function(C, rhs, RSS, b, tol = 1e-5, maxIter = 100) {
     active <- which(b != 0)
     nInactive <- length(inactive)
     nActive <- length(active)
-    b0 <- b + 0.0
-    RSS0 <- RSS + 0.0
     # if model is null
     if (nActive == 0) {
         bOLS <- rhs / diag(C)
@@ -89,14 +87,10 @@ addOne <- function(C, rhs, RSS, b, tol = 1e-5, maxIter = 100) {
     } else {
         RSSNew <- rep(NA, nInactive)
         for (i in 1:nInactive) {
-            RSS <- RSS0 + 0.0
-            b <- b0 + 0.0
             fm <- fitSYS(C = C, rhs = rhs, RSS = RSS, b = b, tol = tol, maxIter = maxIter, active = c(inactive[i], active))
             RSSNew[i] <- fm[["RSS"]]
         }
         k <- which.min(RSSNew)
-        b <- b0 + 0.0
-        RSS <- RSS0 + 0.0
         fm <- fitSYS(C = C, rhs = rhs, RSS = RSS, b = b, tol = tol, maxIter = maxIter, active = c(inactive[k], active))
         ans <- list(b = fm[["b"]], newPred = inactive[k], RSS = fm[["RSS"]])
     }
@@ -105,8 +99,6 @@ addOne <- function(C, rhs, RSS, b, tol = 1e-5, maxIter = 100) {
 
 fitSYS <- function(C, rhs, b, active, RSS, tol, maxIter) {
     active <- active - 1 # for the 0-based index
-    tmp_b <- b + 0.0
-    tmp_RSS <- RSS + 0.0
-    ans <- .Call("fitLSYS", C, rhs, tmp_b, active, tmp_RSS, maxIter, tol)
+    ans <- .Call("fitLSYS", C, rhs, b, active, RSS, maxIter, tol)
     return(list(b = ans[[1]], RSS = ans[[2]]))
 }
