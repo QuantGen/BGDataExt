@@ -12,9 +12,7 @@ SEXP fitLSYS(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP
     int *pactive = INTEGER(active);
     double oldRSS = Rf_asReal(RSS);
     double newRSS = oldRSS;
-    int iter = 0;
-    while (iter < nIter) {
-        iter += 1;
+    for (int iter = 0; iter < nIter; iter++) {
         oldRSS = newRSS;
         for (int j = 0; j < q; j++) { // loop over active predictors
             int k = pactive[j];
