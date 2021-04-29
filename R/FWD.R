@@ -96,7 +96,7 @@ addOne <- function(C, rhs, b, RSS, maxIter = 100, tol = 1e-5) {
 }
 
 fitSYS <- function(C, rhs, b, active, RSS, maxIter, tol) {
-    active <- active - 1 # for the 0-based index
+    active <- active - 1L # for the 0-based index
     ans <- .Call("fitLSYS", C, rhs, b, active, RSS, maxIter, tol)
     return(list(b = ans[[1]], RSS = ans[[2]]))
 }
