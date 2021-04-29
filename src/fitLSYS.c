@@ -17,7 +17,7 @@ SEXP fitLSYS(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP
         for (int j = 0; j < nActive; j++) { // loop over active predictors
             int k = pactive[j];
             double Ckk = pC[k * (p + 1)];
-            double offset = 0.0;
+            double offset = 0;
             for (int m = 0; m < nActive; m++) {
                 int n = pactive[m];
                 offset += pC[p * k + n] * pb[n];
