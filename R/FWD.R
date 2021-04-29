@@ -36,9 +36,7 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
     AIC[1] <- -2 * LogLik[1] + 2 * DF[1]
     path[1] <- colNames[1]
     for (i in 2:df) {
-        tmpB <- B[, i - 1]
-        tmpRSS <- RSS[i - 1]
-        tmp <- addOne(C, rhs, b = tmpB, RSS = tmpRSS, tol = tol, maxIter = maxIter)
+        tmp <- addOne(C, rhs, b = B[, i - 1], RSS = RSS[i - 1], tol = tol, maxIter = maxIter)
         B[, i] <- tmp[["b"]]
         if (length(tmp[["newPred"]]) > 0) {
             path[i] <- colNames[tmp[["newPred"]]]
