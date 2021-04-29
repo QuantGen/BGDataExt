@@ -71,9 +71,9 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
 }
 
 addOne <- function(C, rhs, RSS, b, tol = 1e-5, maxIter = 100) {
-    notActive <- which(b == 0)
+    inactive <- which(b == 0)
     active <- which(b != 0)
-    q <- length(notActive)
+    nInactive <- length(inactive)
     nActive <- length(active)
     b0 <- b + 0.0
     RSS0 <- RSS + 0.0
@@ -84,21 +84,21 @@ addOne <- function(C, rhs, RSS, b, tol = 1e-5, maxIter = 100) {
         k <- which.max(dRSS)
         b[k] <- bOLS[k]
         RSS <- RSS - bOLS^2 * C[k, k]
-        ans <- list(b = b, newPred = notActive[k], RSS = RSS)
+        ans <- list(b = b, newPred = inactive[k], RSS = RSS)
     # when model is not null
     } else {
-        RSSNew <- rep(NA, q)
-        for (i in 1:q) {
+        RSSNew <- rep(NA, nInactive)
+        for (i in 1:nInactive) {
             RSS <- RSS0 + 0.0
             b <- b0 + 0.0
-            fm <- fitSYS(C = C, rhs = rhs, RSS = RSS, b = b, tol = tol, maxIter = maxIter, active = c(notActive[i], active))
+            fm <- fitSYS(C = C, rhs = rhs, RSS = RSS, b = b, tol = tol, maxIter = maxIter, active = c(inactive[i], active))
             RSSNew[i] <- fm[["RSS"]]
         }
         k <- which.min(RSSNew)
         b <- b0 + 0.0
         RSS <- RSS0 + 0.0
-        fm <- fitSYS(C = C, rhs = rhs, RSS = RSS, b = b, tol = tol, maxIter = maxIter, active = c(notActive[k], active))
-        ans <- list(b = fm[["b"]], newPred = notActive[k], RSS = fm[["RSS"]])
+        fm <- fitSYS(C = C, rhs = rhs, RSS = RSS, b = b, tol = tol, maxIter = maxIter, active = c(inactive[k], active))
+        ans <- list(b = fm[["b"]], newPred = inactive[k], RSS = fm[["RSS"]])
     }
     return(ans)
 }
