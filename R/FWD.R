@@ -83,7 +83,7 @@ addOne <- function(C, rhs, b, RSS, maxIter = 100, tol = 1e-5) {
         ans <- list(b = b, newPred = inactive[k], RSS = RSS)
     # when model is not null
     } else {
-        RSSNew <- rep(NA, nInactive)
+        RSSNew <- rep(NA_real_, nInactive)
         for (i in 1:nInactive) {
             fm <- fitSYS(C = C, rhs = rhs, b = b, active = c(inactive[i], active), RSS = RSS, maxIter = maxIter, tol = tol)
             RSSNew[i] <- fm[["RSS"]]
