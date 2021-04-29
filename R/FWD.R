@@ -36,7 +36,7 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
     AIC[1] <- -2 * LogLik[1] + 2 * DF[1]
     path[1] <- colNames[1]
     for (i in 2:df) {
-        tmp <- addOne(C, rhs, b = B[, i - 1], RSS = RSS[i - 1], tol = tol, maxIter = maxIter)
+        tmp <- addOne(C = C, rhs = rhs, b = B[, i - 1], RSS = RSS[i - 1], maxIter = maxIter, tol = tol)
         B[, i] <- tmp[["b"]]
         if (length(tmp[["newPred"]]) > 0) {
             path[i] <- colNames[tmp[["newPred"]]]
@@ -68,7 +68,7 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
     return(OUT)
 }
 
-addOne <- function(C, rhs, RSS, b, tol = 1e-5, maxIter = 100) {
+addOne <- function(C, rhs, b, RSS, maxIter = 100, tol = 1e-5) {
     inactive <- which(b == 0)
     active <- which(b != 0)
     nInactive <- length(inactive)
@@ -85,17 +85,17 @@ addOne <- function(C, rhs, RSS, b, tol = 1e-5, maxIter = 100) {
     } else {
         RSSNew <- rep(NA, nInactive)
         for (i in 1:nInactive) {
-            fm <- fitSYS(C = C, rhs = rhs, RSS = RSS, b = b, tol = tol, maxIter = maxIter, active = c(inactive[i], active))
+            fm <- fitSYS(C = C, rhs = rhs, b = b, active = c(inactive[i], active), RSS = RSS, maxIter = maxIter, tol = tol)
             RSSNew[i] <- fm[["RSS"]]
         }
         k <- which.min(RSSNew)
-        fm <- fitSYS(C = C, rhs = rhs, RSS = RSS, b = b, tol = tol, maxIter = maxIter, active = c(inactive[k], active))
+        fm <- fitSYS(C = C, rhs = rhs, b = b, active = c(inactive[k], active), RSS = RSS, maxIter = maxIter, tol = tol)
         ans <- list(b = fm[["b"]], newPred = inactive[k], RSS = fm[["RSS"]])
     }
     return(ans)
 }
 
-fitSYS <- function(C, rhs, b, active, RSS, tol, maxIter) {
+fitSYS <- function(C, rhs, b, active, RSS, maxIter, tol) {
     active <- active - 1 # for the 0-based index
     ans <- .Call("fitLSYS", C, rhs, b, active, RSS, maxIter, tol)
     return(list(b = ans[[1]], RSS = ans[[2]]))
