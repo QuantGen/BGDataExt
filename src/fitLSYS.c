@@ -1,55 +1,36 @@
 #include "fitLSYS.h"
 
 SEXP fitLSYS(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP tolerance) {
-    int p;
-    int m;
-    int n;
-    R_xlen_t q;
-    int nIter = 0;
-    int j = 0;
-    int iter = 0;
-    int k = 0;
-    int *pactive;
-    double Ckk;
-    double offset;
-    double rhs_offset;
-    double tol;
-    double sol;
-    double *pRSS;
-    double *pC;
-    double *prhs;
-    double *pb;
-    double RSS0;
-    SEXP list;
-    p = Rf_ncols(C);
-    q = Rf_xlength(active);
-    nIter = Rf_asInteger(maxIter);
-    tol = Rf_asReal(tolerance);
+    int p = Rf_ncols(C);
+    R_xlen_t q = Rf_xlength(active);
+    int nIter = Rf_asInteger(maxIter);
+    double tol = Rf_asReal(tolerance);
     PROTECT(C = Rf_coerceVector(C, REALSXP));
-    pC = REAL(C);
+    double *pC = REAL(C);
     PROTECT(rhs = Rf_coerceVector(rhs, REALSXP));
-    prhs = REAL(rhs);
+    double *prhs = REAL(rhs);
     PROTECT(b = Rf_coerceVector(b, REALSXP));
-    pb = REAL(b);
+    double *pb = REAL(b);
     PROTECT(active = Rf_coerceVector(active, INTSXP));
-    pactive = INTEGER(active);
+    int *pactive = INTEGER(active);
     PROTECT(RSS = Rf_coerceVector(RSS, REALSXP));
-    pRSS = REAL(RSS);
-    RSS0 = pRSS[0] + 0.0;
+    double *pRSS = REAL(RSS);
+    double RSS0 = pRSS[0] + 0.0;
+    int iter = 0;
     while (iter < nIter) {
         iter += 1;
         RSS0 = pRSS[0] + 0.0;
-        for (j = 0; j < q; j++) { // loop over active predictors
-            k = pactive[j];
-            Ckk = pC[k * (p + 1)];
-            offset = 0.0;
-            for (m = 0; m < q; m++) {
-                n = pactive[m];
+        for (int j = 0; j < q; j++) { // loop over active predictors
+            int k = pactive[j];
+            double Ckk = pC[k * (p + 1)];
+            double offset = 0.0;
+            for (int m = 0; m < q; m++) {
+                int n = pactive[m];
                 offset += pC[p * k + n] * pb[n];
             }
             offset -= Ckk * pb[k];
-            rhs_offset = prhs[k] - offset;
-            sol = rhs_offset / Ckk;
+            double rhs_offset = prhs[k] - offset;
+            double sol = rhs_offset / Ckk;
             pRSS[0] += (pow(sol, 2) - pow(pb[k], 2)) * Ckk -2 * (sol - pb[k]) * rhs_offset;
             pb[k] = sol;
         }
@@ -58,7 +39,7 @@ SEXP fitLSYS(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP
         }
     }
     // Creating a list to return results
-    PROTECT(list = Rf_allocVector(VECSXP, 2));
+    SEXP list = PROTECT(Rf_allocVector(VECSXP, 2));
     SET_VECTOR_ELT(list, 0, b);
     SET_VECTOR_ELT(list, 1, RSS);
     UNPROTECT(6);
