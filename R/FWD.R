@@ -5,10 +5,7 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
     colNames <- colnames(X)
     y <- y - mean(y)
     if (centerImpute) {
-        for (i in 1:ncol(X)) {
-            X[, i] <- X[, i] - mean(X[, i], na.rm = TRUE)
-            X[, i] <- ifelse(is.na(X[, i]), 0, X[, i])
-        }
+        X <- BGData::preprocess(X, center = TRUE, impute = TRUE)
     }
     X <- cbind(1, X)
     df <- df + 1
