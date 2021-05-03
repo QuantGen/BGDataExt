@@ -31,6 +31,7 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
     VARE[1] <- RSS[1] / (n - DF[1])
     LogLik[1] <- -(n / 2) * log(2 * pi * VARE[1]) - RSS[1] / (2 * VARE[1])
     AIC[1] <- -2 * LogLik[1] + 2 * DF[1]
+    BIC[1] <- -2 * LogLik[1] + log(n) * (DF[1] + 1)
     path[1] <- colNames[1]
     for (i in 2:df) {
         tmp <- addOne(C = C, rhs = rhs, b = B[, i - 1], RSS = RSS[i - 1], maxIter = maxIter, tol = tol)
