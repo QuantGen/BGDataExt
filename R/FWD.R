@@ -67,8 +67,8 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
 }
 
 addOne <- function(C, rhs, b, RSS, maxIter = 100, tol = 1e-5) {
-    inactive <- which(b == 0)
-    active <- which(b != 0)
+    inactive <- which(abs(b) < sqrt(.Machine$double.eps))
+    active <- seq_along(b)[-inactive]
     nInactive <- length(inactive)
     nActive <- length(active)
     # if model is null
