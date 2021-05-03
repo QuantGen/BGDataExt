@@ -77,7 +77,7 @@ addOne <- function(C, rhs, b, RSS, maxIter = 100, tol = 1e-5) {
         dRSS <- diag(C) * bOLS^2
         k <- which.max(dRSS)
         b[k] <- bOLS[k]
-        RSS <- RSS - bOLS^2 * C[k, k]
+        RSS <- RSS - bOLS[k]^2 * C[k, k]
         ans <- list(b = b, newPred = inactive[k], RSS = RSS)
     # when model is not null
     } else {
