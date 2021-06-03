@@ -8,6 +8,8 @@ Authors@R: person("Alexander", "Grueneberg", email = "cran@agrueneberg.info",
     role = c("aut", "cre"))
 Depends:
     R (>= 3.0.0)
+Imports:
+    BGData
 Suggests:
     BGData,
     tinytest
