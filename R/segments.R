@@ -1,9 +1,9 @@
-getSegments <- function(x, chr, bp, names, threshold, lag, trim = FALSE, verbose = FALSE) {
-    if (length(unique(c(length(x), length(chr), length(bp), length(names)))) != 1) {
-        stop("x, chr, bp, and names need to match in length")
+segments <- function(statistic, chr, bp, threshold, gap, verbose = FALSE) {
+    if (length(unique(c(length(statistic), length(chr), length(bp)))) != 1) {
+        stop("statistic, chr, and bp need to match in length")
     }
-    if (!is.numeric(x)) {
-        stop("'x' needs to be a numeric vector")
+    if (!is.numeric(statistic)) {
+        stop("'statistic' needs to be a numeric vector")
     }
     if (!(is.numeric(chr) || is.character(chr))) {
         stop("'chr' needs to be a either a character or numeric vector")
@@ -11,14 +11,11 @@ getSegments <- function(x, chr, bp, names, threshold, lag, trim = FALSE, verbose
     if (!is.numeric(bp)) {
         stop("'bp' needs to be a numeric vector")
     }
-    if (!is.character(names)) {
-        stop("'names' needs to be a character vector")
+    if (!is.numeric(threshold)) {
+        stop("'threshold' needs to a number")
     }
-    if (!(is.numeric(threshold) && length(threshold) == 2)) {
-        stop("'threshold' needs to be a numeric vector of size 2")
-    }
-    if (!is.numeric(lag)) {
-        stop("'lag' needs to a number")
+    if (!is.numeric(gap)) {
+        stop("'gap' needs to a number")
     }
     uniqueChr <- unique(chr)
     out <- vector(mode = "list", length = length(uniqueChr))
@@ -28,15 +25,14 @@ getSegments <- function(x, chr, bp, names, threshold, lag, trim = FALSE, verbose
         }
         # Extract chromosome data
         chrFilter <- which(chr == curChr)
-        xChr <- x[chrFilter]
+        statisticChr <- statistic[chrFilter]
         bpChr <- bp[chrFilter]
-        namesChr <- names[chrFilter]
         # Determine variants below threshold
-        discoverySet <- which(xChr <= threshold[1])
-        # Set discoveries and all variants within +/- lag to 1, leave rest as 0
+        discoverySet <- which(statisticChr <= threshold)
+        # Set discoveries and all variants within +/- gap to 1, leave rest as 0
         signal <- rep(0, length(chrFilter))
         for (discovery in discoverySet) {
-            signal[abs(bpChr - bpChr[discovery]) <= lag] <- 1
+            signal[abs(bpChr - bpChr[discovery]) <= gap] <- 1
         }
         # Determine the runs in the 0/1 signal
         runs <- rle(signal)
@@ -47,29 +43,16 @@ getSegments <- function(x, chr, bp, names, threshold, lag, trim = FALSE, verbose
         runStart <- runStart[withinSegment]
         runEnd <- runStart + runs[["lengths"]][withinSegment] - 1
         runLength <- runs[["lengths"]][withinSegment]
-        # Determine name and value of smallest variant within segment, and
-        # optionally trim segment (i.e., remove variants that are not internal
-        # to the segment containing GWAS-significant variants)
+        # Determine value and position of smallest variant within segment
         # Would be nice to vectorize this like the other operations ...
         minValue <- vector(mode = "numeric", length = length(runStart))
-        minName <- vector(mode = "numeric", length = length(runStart))
+        minValuePos <- vector(mode = "integer", length = length(runStart))
         for (curSeg in seq_along(runStart)) {
             segFilter <- seq(runStart[curSeg], runEnd[curSeg])
-            xSeg <- xChr[segFilter]
-            namesSeg <- namesChr[segFilter]
-            minValuePos <- which.min(xSeg)
-            minValue[curSeg] <- xSeg[minValuePos]
-            minName[curSeg] <- namesSeg[minValuePos]
-            if (trim) {
-                # Determine which variants in the segment passed the threshold
-                # (the second discovery set, so to speak)
-                significantVariants <- which(xSeg <= threshold[2])
-                # Set start of run to first significant variant and end of run
-                # to last significant variant
-                runStart[curSeg] <- segFilter[significantVariants[1]]
-                runEnd[curSeg] <- segFilter[significantVariants[length(significantVariants)]]
-                runLength[curSeg] <- runEnd[curSeg] - runStart[curSeg] + 1
-            }
+            statisticSeq <- statisticChr[segFilter]
+            minValuePosSeg <- which.min(statisticSeq)
+            minValue[curSeg] <- statisticSeq[minValuePosSeg]
+            minValuePos[curSeg] <- chrFilter[1] + segFilter[1] + minValuePosSeg - 2
         }
         # Determine at what base-pair positions the runs start and end
         bpStart <- bpChr[runStart]
@@ -90,8 +73,8 @@ getSegments <- function(x, chr, bp, names, threshold, lag, trim = FALSE, verbose
             bpStart = bpStart,
             bpEnd = bpEnd,
             bpLength = bpLength,
-            minName = minName,
-            minValue = minValue
+            minValue = minValue,
+            minValuePos = minValuePos
         )
         out[[curChr]] <- outChr
     }
