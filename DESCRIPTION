@@ -11,5 +11,4 @@ Depends:
 Imports:
     BGData
 Suggests:
-    BGData,
     tinytest
