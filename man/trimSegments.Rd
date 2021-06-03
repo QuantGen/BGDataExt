@@ -21,7 +21,7 @@ trimSegments(segments, statistic, threshold)
     }
 }
 \value{
-    Trimmed segments, see \link{\code{segments}}.
+    Trimmed segments, see \code{\link{segments}}.
 }
 \examples{
 library(BGData)
