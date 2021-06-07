@@ -17,22 +17,22 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
     p <- ncol(X)
     B <- matrix(data = 0, nrow = p, ncol = df)
     rownames(B) <- colNames
-    B[1, 1] <- mean(y)
     RSS <- rep(NA_real_, df)
-    LogLik <- rep(NA_real_, df)
-    VARE <- rep(NA_real_, df)
-    AIC <- rep(NA_real_, df)
     DF <- rep(NA_real_, df)
+    VARE <- rep(NA_real_, df)
+    LogLik <- rep(NA_real_, df)
+    AIC <- rep(NA_real_, df)
     BIC <- rep(NA_real_, df)
     path <- rep(NA_character_, df)
+    B[1, 1] <- mean(y)
     RSS[1] <- sum((y - B[1, 1])^2)
-    tol <- tol * RSS[1]
     DF[1] <- 1
     VARE[1] <- RSS[1] / (n - DF[1])
     LogLik[1] <- -(n / 2) * log(2 * pi * VARE[1]) - RSS[1] / (2 * VARE[1])
     AIC[1] <- -2 * LogLik[1] + 2 * DF[1]
     BIC[1] <- -2 * LogLik[1] + log(n) * (DF[1] + 1)
     path[1] <- colNames[1]
+    tol <- tol * RSS[1]
     for (i in 2:df) {
         tmp <- addOne(C = C, rhs = rhs, b = B[, i - 1], RSS = RSS[i - 1], maxIter = maxIter, tol = tol)
         B[, i] <- tmp[["b"]]
