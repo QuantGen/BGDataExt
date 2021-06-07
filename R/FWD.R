@@ -1,16 +1,16 @@
 FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, verbose = TRUE) {
-    if (is.null(colnames(X))) {
-        colnames(X) <- paste0("X", 1:ncol(X))
-    }
-    colNames <- colnames(X)
     y <- y - mean(y)
     if (centerImpute) {
         X <- BGData::preprocess(X, center = TRUE, impute = TRUE)
     }
+    if (is.null(colnames(X))) {
+        colNames <- paste0("X", 1:ncol(X))
+    } else {
+        colNames <- colnames(X)
+    }
     X <- cbind(1, X)
     df <- df + 1
-    colnames(X) <- c("Int", colNames)
-    colNames <- colnames(X)
+    colNames <- c("Int", colNames)
     C <- crossprod(X)
     rhs <- crossprod(X, y)
     n <- length(y)
