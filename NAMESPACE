@@ -1,5 +1,4 @@
 export(FWD)
 export(getWindows)
 export(segments)
-export(trimSegments)
 useDynLib(BGDataExt, .registration = TRUE, .fixes = "C_")

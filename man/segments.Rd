@@ -8,7 +8,7 @@
     (often base-pair position).
 }
 \usage{
-segments(statistic, chr, bp, threshold, gap, verbose = FALSE)
+segments(statistic, chr, bp, threshold, gap, trim = FALSE, verbose = FALSE)
 }
 \arguments{
     \item{statistic}{
@@ -27,6 +27,10 @@ segments(statistic, chr, bp, threshold, gap, verbose = FALSE)
     }
     \item{gap}{
         1/2 of the length of the desired segments.
+    }
+    \item{trim}{
+        Whether to collapse segments that were artifically inflated by
+        \code{gap}. Defaults to \code{FALSE}.
     }
     \item{verbose}{
         Whether progress updates will be posted. Defaults to \code{FALSE}.
@@ -83,6 +87,7 @@ segments <- segments(
     bp = map(bg)$base_pair_position,
     threshold = 1e-5,
     gap = 1e6,
+    trim = FALSE,
     verbose = FALSE
 )
 }
