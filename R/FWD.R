@@ -12,6 +12,7 @@ FWD <- function(y, X, df = 20, tol = 1e-7, maxIter = 1000, centerImpute = TRUE, 
     df <- df + 1
     colNames <- c("Int", colNames)
     C <- crossprod(X)
+
     rhs <- crossprod(X, y)
     n <- length(y)
     p <- ncol(X)
