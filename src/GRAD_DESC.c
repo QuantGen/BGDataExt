@@ -1,3 +1,5 @@
+#include "GRAD_DESC.h"
+
 SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP nIter, SEXP learning_rate) {
 
     int p = Rf_ncols(C);
