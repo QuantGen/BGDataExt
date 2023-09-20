@@ -1,4 +1,5 @@
 #include "fitLSYS.h"
+#include "GRAD_DESC.h"
 
 #include <R_ext/Rdynload.h>
 
