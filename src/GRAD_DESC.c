@@ -25,7 +25,7 @@ SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP nIter, SEXP learning_
             }
             
             double gradient=offset-prhs[k] ;
-            double sol=pb[k]-LR*gradient ;
+            double sol=pb[k]+LR*gradient ;
             pb[k] = sol;
         }
     }
