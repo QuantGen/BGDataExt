@@ -27,9 +27,6 @@ SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP nIter, SEXP learning_
             double sol=pb[k]-learning_rate*gradient
             pb[k] = sol;
         }
-       
-       
-        }
     }
     // Creating a list to return results
     SEXP list = PROTECT(Rf_allocVector(VECSXP, 2));
