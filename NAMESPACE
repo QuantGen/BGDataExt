@@ -1,4 +1,5 @@
 export(FWD)
 export(getWindows)
 export(fitSYS)
+export(GRAD_DESC)
 useDynLib(BGDataExt, .registration = TRUE, .fixes = "C_")
