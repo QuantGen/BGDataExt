@@ -1,6 +1,6 @@
 #include "GRAD_DESC.h"
 
-SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP nIter, SEXP learning_rate) {
+SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP maxIter, SEXP learning_rate) {
 
     int p = Rf_ncols(C);
     R_xlen_t nActive = Rf_xlength(active);
