@@ -45,7 +45,7 @@ SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP nIter, SEXP learning_
 
     int p = Rf_ncols(C);
     R_xlen_t nActive = Rf_xlength(active);
-    int nIter = Rf_asInteger(maxIter);
+    int nIter = Rf_asInteger(nIter);
     double *pC = REAL(C);
     double *prhs = REAL(rhs);
     b = PROTECT(Rf_duplicate(b));
