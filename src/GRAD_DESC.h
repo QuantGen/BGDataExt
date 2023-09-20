@@ -2,4 +2,4 @@
 
 #include <Rinternals.h>
 
-SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SSEXP nIter, SEXP learning_rate);
+SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP nIter, SEXP learning_rate);
