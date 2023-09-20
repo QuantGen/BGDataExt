@@ -31,8 +31,6 @@ SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP nIter, SEXP learning_
     }
 
     // Creating a list to return results
-    SEXP list = PROTECT(Rf_allocVector(VECSXP, 2));
-    SET_VECTOR_ELT(list, 0, b);
-    UNPROTECT(2); // b, list
-    return list;
+    UNPROTECT(1); // b
+    return b;
 }
