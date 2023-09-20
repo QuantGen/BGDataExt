@@ -1,17 +1,17 @@
 #include "GRAD_DESC.h"
 
-SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP maxIter, SEXP learning_rate) {
+SEXP GRAD_DESC(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP nIter, SEXP learning_rate) {
 
     int p = Rf_ncols(C);
     R_xlen_t nActive = Rf_xlength(active);
-    int nIter = Rf_asInteger(nIter);
+    int n_iter = Rf_asInteger(nIter);
     double *pC = REAL(C);
     double *prhs = REAL(rhs);
     b = PROTECT(Rf_duplicate(b));
     double *pb = REAL(b);
     int *pactive = INTEGER(active);
 
-    for (int iter = 0; iter < nIter; iter++) {
+    for (int iter = 0; iter < n_iter; iter++) {
         
         for (int j = 0; j < nActive; j++) { // loop over active predictors
             int k = pactive[j];
