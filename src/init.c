@@ -15,3 +15,5 @@ void R_init_BGDataExt(DllInfo *dll) {
     R_useDynamicSymbols(dll, FALSE);
     R_forceSymbols(dll, TRUE);
 }
+
+
