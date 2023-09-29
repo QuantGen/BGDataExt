@@ -5,7 +5,7 @@
     diag(XX)=diag(XX)+lambda
 
      # adding prior mean to the right-hand-side
-    if(lambda2>0){
+    if(lambda0>0){
       Xy=Xy+lambda*lambda0*b0
     }
     
