@@ -5,6 +5,6 @@ GD<- function(XX,Xy,b=rep(0,ncol(XX)),active=1:ncol(XX), RSS=1,nIter=10,learning
     diag(XX)=diag(XX)+lambda
     Xy=Xy+lambda*lambda0*b0
     active <- active - 1L # for the 0-based index
-        ans <- .Call("GRAD_DESC", XX, Xy, b, active, nIter, learning_rate)
+        ans <- .Call("GRAD_DESC",XX, Xy, b, active, nIter, learning_rate)
     return(ans[[1]])
 }
