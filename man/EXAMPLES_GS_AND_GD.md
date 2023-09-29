@@ -60,10 +60,12 @@ I use this to check the solution of the functions that work using iterative proc
 #### Increasing the learning rate
 
 ```r
+
+learning_rate=.5
  PATH=matrix(nrow=ncol(X),ncol=9)
- PATH[,1]=GD(XX,Xy,lambda=lambda,nIter=1,learning_rate=.5) # starting values are zeros
+ PATH[,1]=GD(XX,Xy,lambda=lambda,nIter=1,learning_rate=learning_rate) # starting values are zeros
  for(i in 2:9){
- 	PATH[,i]<-GD(XX,Xy,lambda=lambda,nIter=2,b=PATH[,i-1],learning_rate=.5)
+ 	PATH[,i]<-GD(XX,Xy,lambda=lambda,nIter=2,b=PATH[,i-1],learning_rate=learning_rate)
  } 
 
  par(mfrow=c(3,3))
