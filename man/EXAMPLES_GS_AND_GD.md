@@ -1,6 +1,5 @@
 ```r
-
-library(BGDataExt)
+ library(BGDataExt)
 ```
 
 #### A function for RR based on direct inversion
