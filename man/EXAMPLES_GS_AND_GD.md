@@ -87,6 +87,7 @@ learning_rate=.5
 Here we split the wheat data set in two sets (based on a simple clustering of the genotyepes), set 1 is the one we intend to transfer learning from, set 2 is the target data set. Within this set, we create a training and a testing data set.
 
 ```r
+ set.seed(195021)
  # Clustering 
  SVD=svd(X,nu=5,nv=0)
  group=kmeans(SVD$u,centers=2,nstart=100)$cluster
