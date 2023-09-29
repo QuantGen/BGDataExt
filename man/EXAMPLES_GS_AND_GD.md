@@ -40,7 +40,7 @@
 ```
 
 
-**Checking the Gradient Descent Function (the defailt rearning rate is 0.2)**
+**Checking the Gradient Descent Function (the default rearning rate is 0.2)**
 
 ```r
  PATH=matrix(nrow=ncol(X),ncol=9)
