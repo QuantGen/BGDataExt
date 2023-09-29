@@ -148,10 +148,22 @@ Here we do Gradient Descent for an OLS ojbective function.
   plot(COR.GD,type='o');abline(h=COR,col=c(2,4))
   COR['Max GD']=max(COR.GD)
   COR
-
-
 ```
 
 **Transfer learning with srhinkage towards a external estiamte**
 
 
+Here we do Gradient Descent for an OLS ojbective function.
+
+```r
+ lambda0=seq(from=0,to=1,by=.1)
+ B=matrix(nrow=nrow(XX),ncol=length(lambda0),NA)
+ COR.RR=rep(NA,ncol(B))
+ for(i in 1:ncol(B)){
+    B[,i]=RR(XX2,Xy2, lambda=lambda,lambda0=lambda0[i],b0=bHat1)
+    COR.RR[i]=cor(y2.TST,X2.TST%*%B[,i])
+ }
+ plot(COR.RR,type='o');abline(h=COR,col=c(2,4))
+ COR['Max RR']=max(COR.RR)
+ COR
+```
