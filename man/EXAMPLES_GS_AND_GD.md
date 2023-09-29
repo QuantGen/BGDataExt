@@ -136,8 +136,19 @@ Here we split the wheat data set in two sets (based on a simple clustering of th
 
 **Transfer learning trhough Gradient Descent with Early Stopping**
 
+Here we do Gradient Descent for an OLS ojbective function.
+
 ```r
-  
+  B=GD(XX2,Xy2,b=bHat1,lambda=0,nIter=100,returnPath=TRUE,learning_rate=.1)
+
+  COR.GD=rep(NA,ncol(B))
+  for(i in 1:ncol(B)){
+    COR.GD[i]=cor(y2.TST,X2.TST%*%B[,i])
+  }
+  plot(COR.GD,type='o');abline(h=COR,col=c(2,4))
+  COR['Max GD']=max(COR.GD)
+  COR
+
 
 ```
 
