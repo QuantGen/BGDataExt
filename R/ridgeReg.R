@@ -6,7 +6,7 @@
 
      # adding prior mean to the right-hand-side
     if(lambda2>0){
-      Xy=Xy+lambda0*b0
+      Xy=Xy+lambda*lambda0*b0
     }
     
     ans<-fitSYS(XX, Xy, b, active, RSS, maxIter, tol)[[1]] 
