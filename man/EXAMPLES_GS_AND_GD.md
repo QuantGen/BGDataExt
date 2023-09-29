@@ -102,7 +102,7 @@ Here we split the wheat data set in two sets (based on a simple clustering of th
  X2=X[group2,]
  y2=y[group2]
 
- tst=sample(1:length(y2),size=100)
+ tst=sample(1:length(y2),size=150)
  X2.TRN=X2[-tst,]
  y2.TRN=y2[-tst]
 
