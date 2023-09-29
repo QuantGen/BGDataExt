@@ -10,7 +10,7 @@ I use this to check the solution of the functions that work using iterative proc
 ## Ridge-regression with 'prior mean', i am using this to check the internal function in BGDataExt
  RR2=function(XX,Xy,lambda,b0=rep(0,ncol(XX)),lambda0=0){
 	diag(XX)=diag(XX)+lambda
-	rhs=Xy+lambda0*b0
+	rhs=Xy+lambda*lambda0*b0
 	sol=solve(XX,rhs)
 	return(sol)
  }
