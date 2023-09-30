@@ -187,7 +187,3 @@ Here we do Gradient Descent for an OLS ojbective function.
 
 ```
 
-**Bayesian model shrinking twoards a prior mean**
-
-We can easily implement this in BGLR and BLRXy. For BLRXy there coiuld be an approximate solution addin to X'1 the prior mean/priorVar. However, we need to discuss what priorVar should be.
-
