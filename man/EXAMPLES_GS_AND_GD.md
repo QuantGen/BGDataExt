@@ -179,11 +179,12 @@ Here we do Gradient Descent for an OLS ojbective function.
 
 ```r
  # PGS
- PGS=X2.TRN%*%fm1$ETA[[1]]$b
+ PGS=X2.TRN%*%bHat1
  ETA=list(list(X=as.matrix(PGS),model='FIXED'),list(X=X2.TRN,model='BayesC'))
  fm21=BGLR(y=y2.TRN,ETA=ETA, verbose=FALSE,nIter=12000,burnIn=2000)
- bHat=fm1$ETA[[1]]$b*fm21$ETA[[1]]$b +fm21$ETA[[2]]$b
+ bHat=fm21$ETA[[2]]$b+bHat1*fm21$ETA[[1]]$b
  COR['PGS']= cor(y2.TST,X2.TST%*%bHat)
-
 ```
+
+
 
