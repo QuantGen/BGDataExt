@@ -62,7 +62,7 @@ The recommendation is to use learning rates between 0.05 to 0.8 (not much higher
 
 ```r
 
-learning_rate=.5
+ learning_rate=.5
  PATH=matrix(nrow=ncol(X),ncol=9)
  PATH[,1]=GD(XX,Xy,lambda=lambda,nIter=1,learning_rate=learning_rate) # starting values are zeros
  for(i in 2:9){
@@ -108,6 +108,7 @@ Here we split the wheat data set in two sets (based on a simple clustering of th
 
  X2.TST=X2[tst,]
  y2.TST=y2[tst]
+
 ```
 
 **Cross-group prediction**
@@ -131,6 +132,7 @@ Here we split the wheat data set in two sets (based on a simple clustering of th
  yHat2_within=X2.TST%*%bHat2
 
  COR['Within']= cor(yHat2_within,y2.TST)
+
 ```
 
 
@@ -148,6 +150,7 @@ Here we do Gradient Descent for an OLS ojbective function.
   plot(COR.GD,type='o');abline(h=COR,col=c(2,4))
   COR['Max GD']=max(COR.GD)
   COR
+
 ```
 
 **Transfer learning with srhinkage towards a external estiamte**
@@ -166,4 +169,37 @@ Here we do Gradient Descent for an OLS ojbective function.
  plot(COR.RR,type='o');abline(h=COR,col=c(2,4))
  COR['Max RR']=max(COR.RR)
  COR
+
 ```
+
+
+
+**Bayesian srhinkage towards a prior mean**
+
+This needs more work...I tried a approximation
+
+```r
+ # Fitting the model to the external data set
+ fm1=BLRCross(XX=XX1,Xy=Xy1,idPriors=rep(1,ncol(XX1)),priors=list(list(model='BRR')),
+               my=mean(y1),vy=var(y1),n=length(y1),verbose=FALSE,nIter=12000,burnIn=2000)
+
+ # Fitting the model to the target data (with prior mean=0)
+ fm20=BLRCross(XX=XX2,Xy=Xy2,idPriors=rep(1,ncol(XX2)),priors=list(list(model='BRR')),
+               my=mean(y2.TRN),vy=var(y2.TRN),n=length(y2.TRN),verbose=FALSE,nIter=12000,burnIn=2000)
+
+ # This is an approximation fixing the prior variance to 1/10
+ rhs0=fm1$ETA[[1]]$b*lambda/4
+ rhs0=rep(0,ncol(XX2))
+ fm21=BLRCross(XX=XX2,Xy=I(Xy2+rhs0),idPriors=rep(1,ncol(XX2)),priors=list(list(model='BRR')),
+               my=mean(y2.TRN),vy=var(y2.TRN),n=length(y2.TRN),verbose=FALSE)#,nIter=12000,burnIn=2000)
+
+COR.BAYES=c('Across'= cor(y2.TST,X2.TST%*%fm1$ETA[[1]]$b),
+            'Within'= cor(y2.TST,X2.TST%*%fm20$ETA[[1]]$b),
+            'Prior Mean'= cor(y2.TST,X2.TST%*%fm21$ETA[[1]]$b)
+           )
+COR.BAYES
+
+
+```
+
+
