@@ -18,7 +18,6 @@ These libraries should be installed from GitHub, not CRAN (some updates are not 
 
 ```{r}
  data(wheat)
- set.seed(195021)
  X=scale(wheat.X,center=TRUE,scale=FALSE)
  y=wheat.Y[,1]
 ```
@@ -30,6 +29,8 @@ Here we split the wheat data set in two sets:
   - Set 2 is the target data set; within this set, we create a training and a testing data set.
 
 ```r
+ set.seed(195021)
+ group=sample(1:2,prob=c(.7,.3))
  group1=which(group==1)
  group2=which(group==2)
 
