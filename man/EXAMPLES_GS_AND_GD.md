@@ -174,16 +174,17 @@ Here we do Gradient Descent for an OLS ojbective function.
 
 
 
-**Bayesian PGS method**
+**Bayesian method**
 
+The following approach uses a Bayesian mixture model with two components, one centered in 0 and the other one centered in bHat1
 
 ```r
- # PGS
- PGS=X2.TRN%*%bHat1
- ETA=list(list(X=as.matrix(PGS),model='FIXED'),list(X=X2.TRN,model='BayesC'))
- fm21=BGLR(y=y2.TRN,ETA=ETA, verbose=FALSE,nIter=12000,burnIn=2000)
- bHat=fm21$ETA[[2]]$b+bHat1*fm21$ETA[[1]]$b
- COR['PGS']= cor(y2.TST,X2.TST%*%bHat)
+ source('https://raw.githubusercontent.com/gdlc/BGLR-R/master/misc/mixturesWithNonZeroPriorMeans.R')
+
+
+tmp=BMM(C=XX2,rhs=Xy2,my=mean(y2.TRN),vy=var(y2.TRN),B0=cbind(0,bHat1),nIter=1500,burnIn=500)
+
+ COR['BMM']= cor(y2.TST,X2.TST%*%tmp$b)
 ```
 
 
