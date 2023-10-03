@@ -1,8 +1,15 @@
-## Srhinkage estimation through penalization and early stopping
+## Transfer Learnin using Early Stopping, Ridge Regression, and a Bayesian method
 
-### 1) Standard shrinkage twoards zero
+**Libraries**
+
+These libraries should be installed from GitHub, not CRAN (some updates are not available in CRAN).
+
 
 ```r
+ # To install from GitHub
+ # library(remotes)
+ # install_github('https://github.com/QuantGen/BGDataExt')
+ # install_github('https://github.com/gdlc/BGLR-R')
  library(BGDataExt)
  library(BGLR)
 ```
