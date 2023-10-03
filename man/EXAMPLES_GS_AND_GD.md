@@ -57,6 +57,7 @@ Here we split the wheat data set in two sets:
 As benchmark we consider:
  - **Cross-group prediction**: fit the model in D1, use the fitted model to predict the testing set of D2.
  - **Within-group prediction**: fit the model to the training set of D2, use themodel to predict the testing set of D2.
+ - **Joint Analysis**: fit the model using D1 and the training set of D2. This would be optimal in absence of effect heterogneiety between data set. However, it is not alwasy feasible.
 
 **Cross-group prediction**
 
@@ -82,6 +83,17 @@ As benchmark we consider:
 
 ```
 
+**Joint Analysis**
+
+```r
+ XX=XX1+XX2
+ Xy=Xy1+Xy2
+ lambda=sum(diag(XX))/(nrow(X1)+nrow(X2.TRN))
+ bHatCombined=RR(XX,Xy,lambda,tol=1e-5) # ridge regression
+ yHat2_combined=X2.TST%*%bHatCombined
+ COR=c('Combined'=cor(yHat2_combined,y2.TST))
+
+```
 
 **Transfer learning trhough Gradient Descent with Early Stopping**
 
