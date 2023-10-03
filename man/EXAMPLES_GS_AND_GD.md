@@ -133,8 +133,6 @@ The following code fits Ridge Regression over a grid of values of the regulariza
 
 ```
 
-
-
 **Bayesian method**
 
 The following approach uses a Bayesian mixture model with two components, one centered in 0 and the other one centered in bHat1
@@ -144,17 +142,24 @@ source('https://raw.githubusercontent.com/gdlc/BGLR-R/master/misc/mixturesWithNo
 my=mean(y2.TRN)
 vy=var(y2.TRN)
 n=nrow(X2.TRN)
-B0=cbind(0,bHat1)
-bayes=BMM(C=XX2,rhs=Xy2,my=my,vy=vy,n=n,nIter=1500,burnIn=500,B0=B0)
-COR['BMM2Comp']= cor(y2.TST,X2.TST%*%bayes$b)
 
 B0=as.matrix(bHat1)
-bayes=BMM(C=XX2,rhs=Xy2,my=my,vy=vy,n=n,nIter=1500,burnIn=500,B0=B0)
-COR['BMM1Comp']= cor(y2.TST,X2.TST%*%bayes$b)
+bayes=BMM(C=XX2,rhs=Xy2,my=my,vy=vy,n=n,nIter=1500,burnIn=500,B0=B0,verbose=FALSE)
+COR['Bayes_1_comp.']= cor(y2.TST,X2.TST%*%bayes$b)
+
+B0=cbind(0,bHat1)
+bayes=BMM(C=XX2,rhs=Xy2,my=my,vy=vy,n=n,nIter=1500,burnIn=500,B0=B0,verbose=FALSE)
+COR['Bayes_2_comp']= cor(y2.TST,X2.TST%*%bayes$b)
 
 ```
 
+**Plot with results**
 
+```r
+p=ggplot(data=data.frame(model=names(COR),RSq=COR^2),aes(y=RSq,x=model,fill=model))+geom_bar(stat='identity')
+plot(p)
+```
+# End
 ## Old code I used to test some of the functions
 
 **A function for RR using direct inversion**
