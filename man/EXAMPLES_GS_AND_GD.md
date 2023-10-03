@@ -30,7 +30,8 @@ Here we split the wheat data set in two sets:
 
 ```r
  set.seed(195021)
- group=sample(1:2,prob=c(.7,.3))
+ N=nrow(X)
+ group=sample(1:2,size=N,replace=TRUE)
  group1=which(group==1)
  group2=which(group==2)
 
@@ -40,7 +41,7 @@ Here we split the wheat data set in two sets:
  X2=X[group2,]
  y2=y[group2]
 
- tst=sample(1:length(y2),size=150)
+ tst=sample(1:length(y2),size=50)
  # D2: training
  X2.TRN=X2[-tst,]
  y2.TRN=y2[-tst]
@@ -62,7 +63,7 @@ As benchmark we consider:
 ```r
  XX1=crossprod(X1)
  Xy1=crossprod(X1,y1)
- lambda=sum(diag(XX))/nrow(X)
+ lambda=sum(diag(XX1))/nrow(X1)
  bHat1=RR(XX1,Xy1,lambda,tol=1e-5) # ridge regression
  yHat2_cross=X2.TST%*%bHat1
  COR=c('Across'=cor(yHat2_cross,y2.TST))
@@ -90,7 +91,7 @@ Then, we evaluate prediction accuracy in the testing set of D2 over the solution
 
 ```r
   # B contains the solutions, B[,1]=bHat1, obtained in the GD path
-  B=GD(XX2,Xy2,b=bHat1,lambda=0,nIter=100,returnPath=TRUE,learning_rate=.1)
+  B=GD(XX2,Xy2,b=bHat1,lambda=0,nIter=100,returnPath=TRUE,learning_rate=.03)
 
   COR.GD=rep(NA,ncol(B))
   for(i in 1:ncol(B)){
@@ -108,7 +109,7 @@ Then, we evaluate prediction accuracy in the testing set of D2 over the solution
 The following code fits Ridge Regression over a grid of values of the regularization parameter, shrinking the estimates towards the external estimate (`bHat1`).
 ```r
  lambda0=seq(from=0,to=1,by=.1)
- B=matrix(nrow=nrow(XX),ncol=length(lambda0),NA)
+ B=matrix(nrow=nrow(XX2),ncol=length(lambda0),NA)
  COR.RR=rep(NA,ncol(B))
  for(i in 1:ncol(B)){
     B[,i]=RR(XX2,Xy2, lambda=lambda,lambda0=lambda0[i],b0=bHat1)
@@ -127,11 +128,11 @@ The following code fits Ridge Regression over a grid of values of the regulariza
 The following approach uses a Bayesian mixture model with two components, one centered in 0 and the other one centered in bHat1
 
 ```r
- source('https://raw.githubusercontent.com/gdlc/BGLR-R/master/misc/mixturesWithNonZeroPriorMeans.R')
+source('https://raw.githubusercontent.com/gdlc/BGLR-R/master/misc/mixturesWithNonZeroPriorMeans.R')
 
-tmp=BMM(C=XX2,rhs=Xy2,my=mean(y2.TRN),vy=var(y2.TRN),B0=cbind(0,bHat1),nIter=1500,burnIn=500)
+bayes=BMM(C=XX2,rhs=Xy2,my=mean(y2.TRN),vy=var(y2.TRN),B0=cbind(0,bHat1),nIter=1500,burnIn=500)
 
- COR['BMM']= cor(y2.TST,X2.TST%*%tmp$b)
+ COR['BMM']= cor(y2.TST,X2.TST%*%bayes$b)
 ```
 
 
