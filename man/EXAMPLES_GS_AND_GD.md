@@ -20,7 +20,7 @@ These libraries should be installed from GitHub, not CRAN (some updates are not 
  data(wheat)
  set.seed(195021)
  X=scale(wheat.X,center=TRUE,scale=FALSE)
- y=wheat.pheno[,1]
+ y=wheat.Y[,1]
 ```
 
 **Data split**
