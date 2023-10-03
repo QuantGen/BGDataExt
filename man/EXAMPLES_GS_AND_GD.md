@@ -141,10 +141,17 @@ The following approach uses a Bayesian mixture model with two components, one ce
 
 ```r
 source('https://raw.githubusercontent.com/gdlc/BGLR-R/master/misc/mixturesWithNonZeroPriorMeans.R')
+my=mean(y2.TRN)
+vy=var(y2.TRN)
+n=nrow(X2.TRN)
+B0=cbind(0,bHat1)
+bayes=BMM(C=XX2,rhs=Xy2,my=my,vy=vy,n=n,nIter=1500,burnIn=500,B0=B0)
+COR['BMM2Comp']= cor(y2.TST,X2.TST%*%bayes$b)
 
-bayes=BMM(C=XX2,rhs=Xy2,my=mean(y2.TRN),vy=var(y2.TRN),B0=cbind(0,bHat1),nIter=1500,burnIn=500)
+B0=as.matrix(bHat1)
+bayes=BMM(C=XX2,rhs=Xy2,my=my,vy=vy,n=n,nIter=1500,burnIn=500,B0=B0)
+COR['BMM1Comp']= cor(y2.TST,X2.TST%*%bayes$b)
 
- COR['BMM']= cor(y2.TST,X2.TST%*%bayes$b)
 ```
 
 
