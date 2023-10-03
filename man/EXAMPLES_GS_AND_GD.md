@@ -36,15 +36,15 @@ Here we split the wheat data set in two sets:
  group2=which(group==2)
 
  #D1: external data set
- X1=X[group1,]
- y1=y[group1]
- X2=X[group2,]
+ X1=scale(X[group1,],center=TRUE,scale=FALSE)
+ y1=scale(y[group1],center=TRUE,scale=FALSE)
+ X2=scale(X[group2,],center=TRUE,scale=FALSE)
  y2=y[group2]
 
  tst=sample(1:length(y2),size=50)
  # D2: training
  X2.TRN=X2[-tst,]
- y2.TRN=y2[-tst]
+ y2.TRN=scale(y2[-tst],center=TRUE,scale=FALSE)
 
  # D2: testing
  X2.TST=X2[tst,]
