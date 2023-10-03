@@ -91,7 +91,7 @@ As benchmark we consider:
  lambda=sum(diag(XX))/(nrow(X1)+nrow(X2.TRN))
  bHatCombined=RR(XX,Xy,lambda,tol=1e-5) # ridge regression
  yHat2_combined=X2.TST%*%bHatCombined
- COR=c('Combined'=cor(yHat2_combined,y2.TST))
+ COR['Combined']=cor(yHat2_combined,y2.TST)
 
 ```
 
