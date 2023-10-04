@@ -16,7 +16,7 @@ These libraries should be installed from GitHub, not CRAN (some updates are not 
  
 **Data** 
 
-```{r}
+```r
  data(wheat)
  X=scale(wheat.X,center=TRUE,scale=FALSE)
  y=wheat.Y[,1]
@@ -47,7 +47,7 @@ Run only one of the two options:
 
 **Option 2:** at random
 
-```{r
+```r
  set.seed(195021)
  N=nrow(X)
  group=sample(1:2,size=N,replace=TRUE)
