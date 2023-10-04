@@ -39,5 +39,3 @@ SEXP fitLSYS(SEXP C, SEXP rhs, SEXP b, SEXP active, SEXP RSS, SEXP maxIter, SEXP
     UNPROTECT(2); // b, list
     return list;
 }
-
-
