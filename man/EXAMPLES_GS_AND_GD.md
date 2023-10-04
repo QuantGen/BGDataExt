@@ -75,6 +75,7 @@ Run only one of the two options:
 ### Benchmarks
 
 As benchmark we consider:
+
  - **Cross-group prediction**: fit the model in D1, use the fitted model to predict the testing set of D2.
  - **Within-group prediction**: fit the model to the training set of D2, use themodel to predict the testing set of D2.
  - **Joint Analysis**: fit the model using D1 and the training set of D2. This would be optimal in absence of effect heterogneiety between data set. However, it is not alwasy feasible.
