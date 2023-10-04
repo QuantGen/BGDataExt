@@ -55,7 +55,9 @@ Run only one of the two options:
  group2=which(group==2)
 ```
 
- #D1: external data set
+ # D1: external data set
+
+ ```r
  X1=scale(X[group1,],center=TRUE,scale=FALSE)
  y1=scale(y[group1],center=TRUE,scale=FALSE)
  X2=scale(X[group2,],center=TRUE,scale=FALSE)
