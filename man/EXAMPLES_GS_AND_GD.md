@@ -28,12 +28,32 @@ Here we split the wheat data set in two sets:
   - Set 1 is the one we intend to transfer learning from,
   - Set 2 is the target data set; within this set, we create a training and a testing data set.
 
+We consider **two options**:
+  - Cluster the genotypes and use that to split the data; this option lead to a situation with (potential) effect-heterogeneity,
+  - Assign genotypes to groups at random, in this case, on average, there is no effect heterogenetiy.
+
+Run only one of the two options:
+
+**Option 1**: Clustering
+
 ```r
+ set.seed(195021)
+ N=nrow(X)
+ SVD=svd(X,nu=5,nv=0)
+ tmp=kmeans(SVD$u,centers=2,nstart=50)
+ group=tmp$cluster
+ plot(SVD$u[,1:2],col=group*2)
+```
+
+**Option 2:** at random
+
+```{r
  set.seed(195021)
  N=nrow(X)
  group=sample(1:2,size=N,replace=TRUE)
  group1=which(group==1)
  group2=which(group==2)
+```
 
  #D1: external data set
  X1=scale(X[group1,],center=TRUE,scale=FALSE)
