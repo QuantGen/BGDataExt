@@ -3,5 +3,5 @@ export(getWindows)
 export(fitSYS)
 export(GD)
 export(RR)
-useDynLib(BGDataExt, .registration = TRUE, .fixes = "C_")
+useDynLib("BGDataExt", .registration = TRUE, .fixes = "C_")
 
